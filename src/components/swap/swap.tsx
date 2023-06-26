@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
+import { ClipLoader } from 'react-spinners';
+import clsx from 'clsx';
+
 import {
   useModalContext,
   useWalletContext,
 } from '../../context/context-hooks.ts';
-import { ClipLoader } from 'react-spinners';
-import clsx from 'clsx';
 import TokenSelector from '../modals/token-selector.tsx';
+import ModalTrigger from '../modals/modal-trigger.tsx';
 
 const RATIO = 0.9975;
 
@@ -80,9 +82,6 @@ const Swap: React.FC = () => {
       currentPos === 'first' ? handleFirstTokenChange : handleSecondTokenChange;
     const tokenName = currentPos === 'first' ? 'MATIC' : secondTokenName;
 
-    const onTokenClick = () =>
-      currentPos === 'second' ? openModal('token-modal') : void 0;
-
     const valueInUSD = isNaN(parseFloat(value)) ? 0 : parseFloat(value) * 0.75;
 
     return (
@@ -95,15 +94,25 @@ const Swap: React.FC = () => {
             value={value}
             onChange={onChange}
           />
-          <button
-            className={clsx('token px-2 py-1 rounded-xl', {
-              'bg-gray-500': currentPos === 'second',
-            })}
-            onClick={onTokenClick}
-            data-testid={`token-button-${pos}`}
-          >
-            {tokenName}
-          </button>
+
+          {currentPos === 'second' ? (
+            <ModalTrigger
+              modalName={'token-modal'}
+              trigger={
+                <button
+                  className={'px-2 py-1 rounded-xl bg-gray-500'}
+                  onClick={() => openModal('token-modal')}
+                  data-testid={`token-button-${pos}`}
+                >
+                  {tokenName}
+                </button>
+              }
+              modalContent={<TokenSelector onSelectToken={handleTokenChange} />}
+              modalClassName="w-64"
+            />
+          ) : (
+            <div className="px-2 py-1">{tokenName}</div>
+          )}
         </div>
 
         <div className="flex justify-between">
@@ -118,31 +127,28 @@ const Swap: React.FC = () => {
   };
 
   return (
-    <>
-      <div className="flex flex-col gap-2 md:border rounded-xl mx-auto max-w-lg p-4 m-2">
-        <h1 className="text-2xl">Swap</h1>
+    <div className="flex flex-col gap-2 md:border rounded-xl mx-auto max-w-lg p-4 m-2">
+      <h1 className="text-2xl">Swap</h1>
 
-        {renderToken('first')}
+      {renderToken('first')}
 
-        <button
-          className="-my-4 border p-2 mx-auto rounded-xl active:scale-[99%] bg-gray-900 z-10"
-          onClick={() => setInverse((s) => !s)}
-        >
-          ⇕
-        </button>
+      <button
+        className="-my-4 border p-2 mx-auto rounded-xl active:scale-[99%] bg-gray-900 z-10"
+        onClick={() => setInverse((s) => !s)}
+      >
+        ⇕
+      </button>
 
-        {renderToken('second')}
+      {renderToken('second')}
 
-        <button
-          className={clsx('btn-primary h-12 mt-2', { 'bg-gray-500': loading })}
-          onClick={handleSwap}
-          disabled={loading}
-        >
-          {loading ? <ClipLoader /> : account ? 'Swap' : 'Connect Wallet'}
-        </button>
-      </div>
-      <TokenSelector onSelectToken={handleTokenChange} />
-    </>
+      <button
+        className={clsx('btn-primary h-12 mt-2', { 'bg-gray-500': loading })}
+        onClick={handleSwap}
+        disabled={loading}
+      >
+        {loading ? <ClipLoader /> : account ? 'Swap' : 'Connect Wallet'}
+      </button>
+    </div>
   );
 };
 

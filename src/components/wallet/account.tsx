@@ -2,30 +2,15 @@ import React, { useContext } from 'react';
 import { WalletContext } from '../../context/wallet-context.tsx';
 import { ModalContext } from '../../context/modal-context.tsx';
 import { truncateAddress } from '../../utils/wallet-utils.ts';
-import Modal from '../modals/modal.tsx';
 
-interface IAccountModalProps {
-  children: React.ReactNode;
-}
-
-const Account: React.FC<IAccountModalProps> = (props) => {
+const Account: React.FC = () => {
   const { account } = useContext(WalletContext);
-  const { openModal, currentModal, closeModal } = useContext(ModalContext);
+  const { openModal } = useContext(ModalContext);
 
   return (
-    <>
-      <button onClick={() => openModal('account-modal')}>
-        {account ? truncateAddress(account) : 'Connect Wallet'}
-      </button>
-
-      <Modal
-        isOpen={currentModal === 'account-modal'}
-        onClose={closeModal}
-        className="max-w-lg"
-      >
-        {props.children}
-      </Modal>
-    </>
+    <button onClick={() => openModal('account-modal')}>
+      {account ? truncateAddress(account) : 'Connect Wallet'}
+    </button>
   );
 };
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import Account from '../wallet/account.tsx';
 import AccountModalBody from '../modals/account-modal.tsx';
+import ModalTrigger from '../modals/modal-trigger.tsx';
 
 interface IPageLayoutProps {
   children: React.ReactNode;
@@ -13,9 +14,12 @@ const PageLayout: React.FC<IPageLayoutProps> = ({ children }) => {
         <nav className="flex gap-4 justify-between items-center p-4">
           <h1 className="text-2xl">Simple Swap DAPP</h1>
 
-          <Account>
-            <AccountModalBody />
-          </Account>
+          <ModalTrigger
+            modalName={'account-modal'}
+            trigger={<Account />}
+            modalContent={<AccountModalBody />}
+            modalClassName="md:max-w-lg"
+          />
         </nav>
       </header>
 
