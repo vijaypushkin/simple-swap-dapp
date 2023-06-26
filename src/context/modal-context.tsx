@@ -1,8 +1,10 @@
 import React, { createContext, useState } from 'react';
 
+type TModalName = 'account-modal' | 'token-modal';
+
 interface IModalContext {
-  currentModal: string | null;
-  openModal: (modalName: string) => void;
+  currentModal: TModalName | null;
+  openModal: (modalName: TModalName) => void;
   closeModal: () => void;
 }
 
@@ -21,9 +23,9 @@ const ModalContext = createContext<IModalContext>({
 });
 
 const ModalProvider: React.FC<IModalContextProps> = ({ children }) => {
-  const [currentModal, setCurrentModal] = useState<string | null>(null);
+  const [currentModal, setCurrentModal] = useState<TModalName | null>(null);
 
-  const openModal = (modalName: string) => {
+  const openModal = (modalName: TModalName) => {
     setCurrentModal(modalName);
   };
 
