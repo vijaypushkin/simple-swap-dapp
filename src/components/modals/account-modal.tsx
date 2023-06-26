@@ -4,11 +4,11 @@ import { useWalletContext } from '../../context/context-hooks.ts';
 import { truncateAddress } from '../../utils/wallet-utils.ts';
 
 const AccountModalBody: React.FC = () => {
-  const { account, handleConnectWallet, handleDisconnectWallet } =
+  const { account, handleConnectWallet, handleDisconnectWallet, error } =
     useWalletContext();
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-6">
       <h2 className="text-2xl">Account</h2>
 
       {account ? (
@@ -17,13 +17,21 @@ const AccountModalBody: React.FC = () => {
 
           <div className="hidden md:block">{account}</div>
 
-          <button className="btn-primary" onClick={handleDisconnectWallet}>
-            Disconnect Wallet
+          <button
+            className="btn-primary"
+            onClick={handleDisconnectWallet}
+            disabled={error != null}
+          >
+            {error ?? 'Disconnect Wallet'}
           </button>
         </div>
       ) : (
-        <button className="btn-primary" onClick={handleConnectWallet}>
-          Connect Wallet
+        <button
+          className="btn-primary"
+          onClick={handleConnectWallet}
+          disabled={error != null}
+        >
+          {error ?? 'Connect Wallet'}
         </button>
       )}
     </div>

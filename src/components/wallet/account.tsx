@@ -18,7 +18,11 @@ const Account: React.FC<IAccountModalProps> = (props) => {
         {account ? truncateAddress(account) : 'Connect Wallet'}
       </button>
 
-      <Modal isOpen={currentModal === 'account-modal'} onClose={closeModal}>
+      <Modal
+        isOpen={currentModal === 'account-modal'}
+        onClose={closeModal}
+        className="max-w-lg"
+      >
         {props.children}
       </Modal>
     </>

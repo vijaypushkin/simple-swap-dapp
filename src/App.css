@@ -1,3 +1,7 @@
 .btn-primary {
     @apply active:scale-[99%] bg-blue-500 text-white font-bold py-2 px-4 rounded-xl;
 }
+
+.btn-primary[disabled] {
+    @apply bg-gray-500;
+}

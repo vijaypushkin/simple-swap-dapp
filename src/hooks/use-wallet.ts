@@ -17,14 +17,14 @@ const useWallet = () => {
       method: 'eth_requestAccounts',
     });
 
-    console.log(accounts);
-
     if (accounts && accounts.length) {
       setAccount(accounts[0] ?? null);
     }
   };
 
   const handleDisconnectWallet = async () => {
+    setError(null);
+
     if (!window.ethereum) {
       setError('Metamask not found');
       return;
@@ -61,6 +61,15 @@ const useWallet = () => {
       getBalance();
     }
   }, [account]);
+
+  // ? reset error after 5 seconds
+  useEffect(() => {
+    if (error) {
+      setTimeout(() => {
+        setError(null);
+      }, 5000);
+    }
+  }, [error]);
 
   return {
     account,

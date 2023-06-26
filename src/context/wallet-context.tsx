@@ -4,6 +4,7 @@ import useWallet from '../hooks/use-wallet.ts';
 interface IWalletContext {
   account: string | null;
   balance: string | null;
+  error: string | null;
   handleConnectWallet: () => void;
   handleDisconnectWallet: () => void;
 }
@@ -15,6 +16,7 @@ interface IWalletContextProps {
 const WalletContext = createContext<IWalletContext>({
   account: null,
   balance: null,
+  error: null,
   handleConnectWallet: () => {
     // noop
   },
@@ -24,12 +26,23 @@ const WalletContext = createContext<IWalletContext>({
 });
 
 const WalletProvider: React.FC<IWalletContextProps> = ({ children }) => {
-  const { account, balance, handleConnectWallet, handleDisconnectWallet } =
-    useWallet();
+  const {
+    account,
+    balance,
+    error,
+    handleConnectWallet,
+    handleDisconnectWallet,
+  } = useWallet();
 
   return (
     <WalletContext.Provider
-      value={{ account, balance, handleConnectWallet, handleDisconnectWallet }}
+      value={{
+        account,
+        balance,
+        error,
+        handleConnectWallet,
+        handleDisconnectWallet,
+      }}
     >
       {children}
     </WalletContext.Provider>
