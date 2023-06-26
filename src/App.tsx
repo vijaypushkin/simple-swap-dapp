@@ -1,12 +1,13 @@
-import './App.css';
 import ModalProvider from './context/modal-context.tsx';
+import Swap from './components/swap/swap.tsx';
+import PageLayout from './components/layout/page-layout.tsx';
 
 function App() {
   return (
     <ModalProvider>
-      <h1 className="text-3xl m-4 flex justify-center items-center">
-        Hello World
-      </h1>
+      <PageLayout>
+        <Swap />
+      </PageLayout>
     </ModalProvider>
   );
 }
