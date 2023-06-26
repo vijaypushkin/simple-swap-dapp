@@ -1,15 +1,22 @@
 import React, { useState } from 'react';
-import { useWalletContext } from '../../context/context-hooks.ts';
+import {
+  useModalContext,
+  useWalletContext,
+} from '../../context/context-hooks.ts';
 import { ClipLoader } from 'react-spinners';
 import clsx from 'clsx';
+import TokenSelector from '../modals/token-selector.tsx';
 
 const RATIO = 0.9975;
 
 const Swap: React.FC = () => {
-  const { account, handleConnectWallet } = useWalletContext();
+  const { account, balance, handleConnectWallet } = useWalletContext();
+  const { openModal, closeModal } = useModalContext();
 
   const [firstToken, setFirstToken] = useState('');
   const [secondToken, setSecondToken] = useState('');
+  const [secondTokenName, setSecondTokenName] = useState('USDC');
+
   const [inverse, setInverse] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -60,11 +67,21 @@ const Swap: React.FC = () => {
     }, 3000);
   };
 
-  const renderToken = (name: 'first' | 'second') => {
-    const value = name === 'first' ? firstToken : secondToken;
+  const handleTokenChange = (token: string) => {
+    setSecondTokenName(token);
+    closeModal();
+  };
+
+  const renderToken = (pos: 'first' | 'second') => {
+    const currentPos = inverse ? (pos === 'first' ? 'second' : 'first') : pos;
+
+    const value = currentPos === 'first' ? firstToken : secondToken;
     const onChange =
-      name === 'first' ? handleFirstTokenChange : handleSecondTokenChange;
-    const tokenName = name === 'first' ? 'MATIC' : 'USDC';
+      currentPos === 'first' ? handleFirstTokenChange : handleSecondTokenChange;
+    const tokenName = currentPos === 'first' ? 'MATIC' : secondTokenName;
+
+    const onTokenClick = () =>
+      currentPos === 'second' ? openModal('token-modal') : void 0;
 
     const valueInUSD = isNaN(parseFloat(value)) ? 0 : parseFloat(value) * 0.75;
 
@@ -78,37 +95,54 @@ const Swap: React.FC = () => {
             value={value}
             onChange={onChange}
           />
-          <button className="token px-2 py-1">{tokenName}</button>
+          <button
+            className={clsx('token px-2 py-1 rounded-xl', {
+              'bg-gray-500': currentPos === 'second',
+            })}
+            onClick={onTokenClick}
+            data-testid={`token-button-${pos}`}
+          >
+            {tokenName}
+          </button>
         </div>
 
-        <div className="text-xs">${valueInUSD}</div>
+        <div className="flex justify-between">
+          <div className="text-xs">${valueInUSD}</div>
+
+          {currentPos === 'first' && (
+            <div className="text-xs">{balance} MATIC</div>
+          )}
+        </div>
       </div>
     );
   };
 
   return (
-    <div className="flex flex-col gap-2 border rounded-xl mx-auto max-w-lg p-4 m-2">
-      <h1 className="text-2xl">Swap</h1>
+    <>
+      <div className="flex flex-col gap-2 border rounded-xl mx-auto max-w-lg p-4 m-2">
+        <h1 className="text-2xl">Swap</h1>
 
-      {renderToken(inverse ? 'second' : 'first')}
+        {renderToken('first')}
 
-      <button
-        className="-my-4 border p-2 mx-auto rounded-xl active:scale-[99%] bg-gray-900 z-10"
-        onClick={() => setInverse((s) => !s)}
-      >
-        ⇕
-      </button>
+        <button
+          className="-my-4 border p-2 mx-auto rounded-xl active:scale-[99%] bg-gray-900 z-10"
+          onClick={() => setInverse((s) => !s)}
+        >
+          ⇕
+        </button>
 
-      {renderToken(inverse ? 'first' : 'second')}
+        {renderToken('second')}
 
-      <button
-        className={clsx('btn-primary h-12 mt-2', { 'bg-gray-500': loading })}
-        onClick={handleSwap}
-        disabled={loading}
-      >
-        {loading ? <ClipLoader /> : account ? 'Swap' : 'Connect Wallet'}
-      </button>
-    </div>
+        <button
+          className={clsx('btn-primary h-12 mt-2', { 'bg-gray-500': loading })}
+          onClick={handleSwap}
+          disabled={loading}
+        >
+          {loading ? <ClipLoader /> : account ? 'Swap' : 'Connect Wallet'}
+        </button>
+      </div>
+      <TokenSelector onSelectToken={handleTokenChange} />
+    </>
   );
 };
 

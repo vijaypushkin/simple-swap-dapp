@@ -1,12 +1,19 @@
 import { useEffect, useRef } from 'react';
+import clsx from 'clsx';
 
 interface IModalProps {
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
+  className?: string;
 }
 
-const Modal: React.FC<IModalProps> = ({ isOpen, onClose, children }) => {
+const Modal: React.FC<IModalProps> = ({
+  isOpen,
+  onClose,
+  children,
+  className,
+}) => {
   const modalRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -21,7 +28,7 @@ const Modal: React.FC<IModalProps> = ({ isOpen, onClose, children }) => {
     <dialog
       ref={modalRef}
       onClose={onClose}
-      className="w-8/12 rounded-xl relative"
+      className={clsx('w-8/12 rounded-xl relative', className)}
     >
       <button className="absolute right-4 top-4" onClick={onClose}>
         &times;
