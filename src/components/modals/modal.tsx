@@ -38,9 +38,15 @@ const Modal: React.FC<IModalProps> = ({
     <dialog
       ref={modalRef}
       onClose={onClose}
-      className={clsx('w-8/12 rounded-xl relative', className, styles.modal, {
-        [styles.closing]: closing,
-      })}
+      className={clsx(
+        'w-8/12 rounded-xl relative',
+        className,
+        styles.modal,
+        closing,
+        {
+          [styles.closing]: closing,
+        },
+      )}
     >
       <button className="absolute right-4 top-4" onClick={onClose}>
         &times;
