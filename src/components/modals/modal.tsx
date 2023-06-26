@@ -34,10 +34,29 @@ const Modal: React.FC<IModalProps> = ({
     }
   }, [isOpen]);
 
+  const handleClick = (ev: React.MouseEvent<HTMLDialogElement>) => {
+    const dialogDimensions = modalRef.current?.getBoundingClientRect();
+
+    if (!dialogDimensions) {
+      return;
+    }
+
+    const isClickOutside =
+      ev.clientX < dialogDimensions.left ||
+      ev.clientX > dialogDimensions.right ||
+      ev.clientY < dialogDimensions.top ||
+      ev.clientY > dialogDimensions.bottom;
+
+    if (isClickOutside) {
+      onClose();
+    }
+  };
+
   return (
     <dialog
       ref={modalRef}
       onClose={onClose}
+      onClick={handleClick}
       className={clsx(
         'w-8/12 rounded-xl relative',
         className,
