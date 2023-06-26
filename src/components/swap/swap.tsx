@@ -109,7 +109,7 @@ const Swap: React.FC = () => {
         <div className="flex justify-between">
           <div className="text-xs">${valueInUSD}</div>
 
-          {currentPos === 'first' && (
+          {currentPos === 'first' && balance != null && (
             <div className="text-xs">{balance} MATIC</div>
           )}
         </div>
@@ -119,7 +119,7 @@ const Swap: React.FC = () => {
 
   return (
     <>
-      <div className="flex flex-col gap-2 border rounded-xl mx-auto max-w-lg p-4 m-2">
+      <div className="flex flex-col gap-2 md:border rounded-xl mx-auto max-w-lg p-4 m-2">
         <h1 className="text-2xl">Swap</h1>
 
         {renderToken('first')}
