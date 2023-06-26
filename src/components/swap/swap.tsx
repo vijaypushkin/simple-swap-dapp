@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useWalletContext } from '../../context/context-hooks.ts';
+import { ClipLoader } from 'react-spinners';
+import clsx from 'clsx';
 
 const RATIO = 0.9975;
 
@@ -7,10 +9,9 @@ const Swap: React.FC = () => {
   const { account, handleConnectWallet } = useWalletContext();
 
   const [firstToken, setFirstToken] = useState('');
-
   const [secondToken, setSecondToken] = useState('');
-
   const [inverse, setInverse] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const handleFirstTokenChange = (
     ev: React.ChangeEvent<HTMLInputElement>,
@@ -52,8 +53,10 @@ const Swap: React.FC = () => {
       return void 0;
     }
 
+    setLoading(true);
     setTimeout(() => {
       alert('Swap successful!');
+      setLoading(false);
     }, 3000);
   };
 
@@ -99,10 +102,11 @@ const Swap: React.FC = () => {
       {renderToken(inverse ? 'first' : 'second')}
 
       <button
-        className="bg-blue-900 h-12 rounded-xl mt-2 active:scale-[99%]"
+        className={clsx('btn-primary h-12 mt-2', { 'bg-gray-500': loading })}
         onClick={handleSwap}
+        disabled={loading}
       >
-        {account ? 'Swap' : 'Connect Wallet'}
+        {loading ? <ClipLoader /> : account ? 'Swap' : 'Connect Wallet'}
       </button>
     </div>
   );
