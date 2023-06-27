@@ -61,15 +61,9 @@ const Modal: React.FC<IModalProps> = ({
       ref={modalRef}
       onClose={onClose}
       onClick={handleClick}
-      className={clsx(
-        'w-8/12 rounded-xl relative',
-        className,
-        styles.modal,
-        closing,
-        {
-          [styles.closing]: closing,
-        },
-      )}
+      className={clsx('w-8/12 rounded-xl relative', className, styles.modal, {
+        [styles.closing]: closing,
+      })}
       data-testid={modalName}
     >
       <button

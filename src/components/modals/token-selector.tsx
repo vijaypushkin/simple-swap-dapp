@@ -15,6 +15,7 @@ const TokenSelector: React.FC<ITokenSelectorProps> = (props) => {
           key={token}
           className="my-1"
           onClick={() => props.onSelectToken(token)}
+          data-testid={`${token}-button`}
         >
           {token}
         </button>

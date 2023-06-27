@@ -5,8 +5,8 @@ interface IWalletContext {
   account: string | null;
   balance: string | null;
   error: string | null;
-  handleConnectWallet: () => void;
-  handleDisconnectWallet: () => void;
+  handleConnectWallet: null | (() => void);
+  handleDisconnectWallet: null | (() => void);
 }
 
 interface IWalletContextProps {
@@ -17,12 +17,8 @@ const WalletContext = createContext<IWalletContext>({
   account: null,
   balance: null,
   error: null,
-  handleConnectWallet: () => {
-    // noop
-  },
-  handleDisconnectWallet: () => {
-    // noop
-  },
+  handleConnectWallet: null,
+  handleDisconnectWallet: null,
 });
 
 const WalletProvider: React.FC<IWalletContextProps> = ({ children }) => {

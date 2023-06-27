@@ -58,7 +58,7 @@ const Swap: React.FC = () => {
 
   const handleSwap = () => {
     if (!account) {
-      handleConnectWallet();
+      handleConnectWallet?.();
       return void 0;
     }
 
@@ -85,7 +85,10 @@ const Swap: React.FC = () => {
     const valueInUSD = isNaN(parseFloat(value)) ? 0 : parseFloat(value) * 0.75;
 
     return (
-      <div className="flex flex-col border rounded-xl p-4 gap-2 bg-gray-800">
+      <div
+        className="flex flex-col border rounded-xl p-4 gap-2 bg-gray-800"
+        data-testid={`${pos}-${currentPos}`}
+      >
         <div className="flex flex-row">
           <input
             className="grow text-lg md:text-2xl bg-transparent"
@@ -93,6 +96,7 @@ const Swap: React.FC = () => {
             pattern="^[0-9]*[.,]?[0-9]*$"
             value={value}
             onChange={onChange}
+            data-testid={`${currentPos}-input`}
           />
 
           {currentPos === 'second' ? (
@@ -101,7 +105,7 @@ const Swap: React.FC = () => {
               trigger={tokenName}
               triggerClassName={'px-2 py-1 rounded-xl bg-gray-500'}
               modalContent={<TokenSelector onSelectToken={handleTokenChange} />}
-              modalClassName="w-64"
+              modalClassName="w-56"
             />
           ) : (
             <div className="px-2 py-1">{tokenName}</div>
@@ -128,6 +132,7 @@ const Swap: React.FC = () => {
       <button
         className="-my-4 border p-2 mx-auto rounded-xl active:scale-[99%] bg-gray-900 z-10"
         onClick={() => setInverse((s) => !s)}
+        data-testid="swap-input-button"
       >
         ⇕
       </button>
