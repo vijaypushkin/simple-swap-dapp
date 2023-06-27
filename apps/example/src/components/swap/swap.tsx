@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import { ClipLoader } from 'react-spinners';
 import clsx from 'clsx';
+import { ModalTrigger, useModalContext } from 'pushkin-simple-modals-01';
 
-import {
-  useModalContext,
-  useWalletContext,
-} from '../../context/context-hooks.ts';
+import { useWalletContext } from '../../context/context-hooks.ts';
 import TokenSelector from '../modals/token-selector.tsx';
-import ModalTrigger from '../modals/modal-trigger.tsx';
 
 const RATIO = 0.9975;
 

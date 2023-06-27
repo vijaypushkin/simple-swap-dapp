@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
+import { ModalTrigger } from 'pushkin-simple-modals-01';
 
 import AccountModalBody from '../modals/account-modal.tsx';
-import ModalTrigger from '../modals/modal-trigger.tsx';
 import { truncateAddress } from '../../utils/wallet-utils.ts';
 import { WalletContext } from '../../context/wallet-context.tsx';
 

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import * as React from 'react';
 
 export type TModalName =
   | 'account-modal'
@@ -16,7 +16,7 @@ interface IModalContextProps {
   children: React.ReactNode;
 }
 
-const ModalContext = createContext<IModalContext>({
+const ModalContext = React.createContext<IModalContext>({
   currentModal: null,
   openModal: () => {
     // noop
@@ -27,7 +27,9 @@ const ModalContext = createContext<IModalContext>({
 });
 
 const ModalProvider: React.FC<IModalContextProps> = ({ children }) => {
-  const [currentModal, setCurrentModal] = useState<TModalName | null>(null);
+  const [currentModal, setCurrentModal] = React.useState<TModalName | null>(
+    null,
+  );
 
   const openModal = (modalName: TModalName) => {
     setCurrentModal(modalName);
@@ -45,7 +47,7 @@ const ModalProvider: React.FC<IModalContextProps> = ({ children }) => {
 };
 
 const useModalContext = () => {
-  const context = useContext(ModalContext);
+  const context = React.useContext(ModalContext);
 
   if (context === undefined) {
     throw new Error('useModalContext must be used within a ModalProvider');

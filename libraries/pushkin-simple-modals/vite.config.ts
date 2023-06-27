@@ -1,19 +1,24 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
 import path from 'path';
-import typescript from '@rollup/plugin-typescript';
-import typescriptPaths from 'rollup-plugin-typescript-paths';
+import dts from 'vite-plugin-dts';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    dts({
+      insertTypesEntry: true,
+    }),
+  ],
   server: {
     port: 3001,
   },
   build: {
     lib: {
-      entry: path.resolve('src', 'src/components/main.tsx'),
+      entry: path.resolve('src', 'main.tsx'),
       name: 'pushkin-simple-modals-01',
+      formats: ['es', 'umd'],
       fileName: (format) => `main.${format}.js`,
     },
     rollupOptions: {
@@ -23,16 +28,6 @@ export default defineConfig({
           react: 'React',
         },
       },
-      plugins: [
-        typescriptPaths({
-          preserveExtensions: true,
-        }),
-        typescript({
-          sourceMap: false,
-          declaration: true,
-          outDir: 'dist',
-        }),
-      ],
     },
   },
 });

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import * as React from 'react';
 import clsx from 'clsx';
 
 import styles from './modal.module.scss';
@@ -18,12 +18,12 @@ const Modal: React.FC<IModalProps> = ({
   children,
   className,
 }) => {
-  const modalRef = useRef<HTMLDialogElement>(null);
+  const modalRef = React.useRef<HTMLDialogElement>(null);
 
   // ? This flag is for the closing animation
-  const [closing, setClosing] = useState(false);
+  const [closing, setClosing] = React.useState(false);
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (isOpen && modalRef.current?.open === false) {
       modalRef.current?.showModal();
     } else if (!isOpen && modalRef.current?.open === true) {
