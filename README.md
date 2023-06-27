@@ -20,5 +20,5 @@ pnpm install -g @microsoft/rush
 Then, to install the packages, run the following command:
 
 ```shell
-rush update
+rush install
 ```
