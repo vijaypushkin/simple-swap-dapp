@@ -4,16 +4,23 @@ import { useModalContext } from '../../context/context-hooks.ts';
 
 interface IModalTriggerProps {
   modalName: TModalName;
-  trigger: React.ReactNode;
+  trigger: string | React.ReactNode;
   modalContent: React.ReactNode;
+  triggerClassName?: string;
   modalClassName?: string;
 }
 
 const ModalTrigger: React.FC<IModalTriggerProps> = (props) => {
-  const { closeModal, currentModal } = useModalContext();
+  const { closeModal, openModal, currentModal } = useModalContext();
   return (
     <>
-      {props.trigger}
+      <button
+        className={props.triggerClassName}
+        onClick={() => openModal(props.modalName)}
+        data-testid={`${props.modalName}-trigger`}
+      >
+        {props.trigger}
+      </button>
       <Modal
         isOpen={props.modalName === currentModal}
         onClose={closeModal}

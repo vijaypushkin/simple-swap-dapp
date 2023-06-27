@@ -13,7 +13,7 @@ const RATIO = 0.9975;
 
 const Swap: React.FC = () => {
   const { account, balance, handleConnectWallet } = useWalletContext();
-  const { openModal, closeModal } = useModalContext();
+  const { closeModal } = useModalContext();
 
   const [firstToken, setFirstToken] = useState('');
   const [secondToken, setSecondToken] = useState('');
@@ -98,15 +98,8 @@ const Swap: React.FC = () => {
           {currentPos === 'second' ? (
             <ModalTrigger
               modalName={'token-modal'}
-              trigger={
-                <button
-                  className={'px-2 py-1 rounded-xl bg-gray-500'}
-                  onClick={() => openModal('token-modal')}
-                  data-testid={`token-button-${pos}`}
-                >
-                  {tokenName}
-                </button>
-              }
+              trigger={tokenName}
+              triggerClassName={'px-2 py-1 rounded-xl bg-gray-500'}
               modalContent={<TokenSelector onSelectToken={handleTokenChange} />}
               modalClassName="w-64"
             />

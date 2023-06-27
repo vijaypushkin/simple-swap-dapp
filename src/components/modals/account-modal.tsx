@@ -4,8 +4,13 @@ import { useWalletContext } from '../../context/context-hooks.ts';
 import { truncateAddress } from '../../utils/wallet-utils.ts';
 
 const AccountModalBody: React.FC = () => {
-  const { account, handleConnectWallet, handleDisconnectWallet, error } =
-    useWalletContext();
+  const {
+    account,
+    balance,
+    handleConnectWallet,
+    handleDisconnectWallet,
+    error,
+  } = useWalletContext();
 
   return (
     <div className="flex flex-col gap-6">
@@ -15,7 +20,15 @@ const AccountModalBody: React.FC = () => {
         <div className="flex flex-col gap-2 overflow-hidden">
           <div className="md:hidden">{truncateAddress(account)}</div>
 
-          <div className="hidden md:block">{account}</div>
+          <div className="hidden md:block" data-testid="account">
+            {account}
+          </div>
+
+          {balance && (
+            <div className="text-sm text-gray-400">
+              <span data-testid="balance">{balance}</span> <span>MATIC</span>
+            </div>
+          )}
 
           <button
             className="btn-primary"
