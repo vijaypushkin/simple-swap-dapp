@@ -1,6 +1,8 @@
 # Simple Modal
 
-This is a simple modal package for use with the Pushkin framework. It is designed to be used with the [Simple Swap DAPP](
+This is a simple react modal package. It is designed to be used with the [Simple Swap DAPP](../../apps/example/README.md)
+
+It uses native HTML dialog elements and is styled with TailwindCSS.
 
 ## Installation
 
@@ -20,7 +22,7 @@ pnpm add pushkin-simple-modals-01
 ```typescript jsx
 import { ModalProvider, ModalTrigger } from 'pushkin-simple-modals-01';
 
-const App: React.FC = () => {
+const App = () => {
   return (
     <ModalProvider>
        <ModalTrigger
@@ -28,7 +30,7 @@ const App: React.FC = () => {
           trigger={'Open Modal'}
           modalContent={<div>Hello World</div>}
           modalClassName="md:max-w-lg"
-        />
-     </ModalProvider>
+       />
+    </ModalProvider>
   );
 };
