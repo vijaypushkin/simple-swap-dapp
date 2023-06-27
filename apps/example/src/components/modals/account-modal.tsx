@@ -32,7 +32,7 @@ const AccountModalBody: React.FC = () => {
 
           <button
             className="btn-primary"
-            onClick={handleDisconnectWallet}
+            onClick={() => handleDisconnectWallet?.()}
             disabled={error != null}
           >
             {error ?? 'Disconnect Wallet'}
@@ -41,7 +41,7 @@ const AccountModalBody: React.FC = () => {
       ) : (
         <button
           className="btn-primary"
-          onClick={handleConnectWallet}
+          onClick={() => handleConnectWallet?.()}
           disabled={error != null}
         >
           {error ?? 'Connect Wallet'}
