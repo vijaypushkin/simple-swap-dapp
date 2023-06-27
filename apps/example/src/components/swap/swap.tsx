@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { ClipLoader } from 'react-spinners';
 import clsx from 'clsx';
-import { ModalTrigger, useModalContext } from 'pushkin-simple-modals-01';
+import { useModalContext } from 'pushkin-simple-modals-01';
 
 import { useWalletContext } from '../../context/context-hooks.ts';
-import TokenSelector from '../modals/token-selector.tsx';
+import SwapInput from './swap-input.tsx';
 
 const RATIO = 0.9975;
 
@@ -77,54 +77,29 @@ const Swap: React.FC = () => {
     closeModal();
   };
 
-  const renderToken = (pos: 'first' | 'second') => {
-    const currentPos = inverse ? (pos === 'first' ? 'second' : 'first') : pos;
+  const renderToken = (label: 'first' | 'second') => (
+    <SwapInput
+      label={label}
+      inverse={inverse}
+      firstToken={firstToken}
+      secondToken={secondToken}
+      balance={balance}
+      secondTokenName={secondTokenName}
+      handleFirstTokenChange={handleFirstTokenChange}
+      handleSecondTokenChange={handleSecondTokenChange}
+      handleTokenChange={handleTokenChange}
+    />
+  );
 
-    const value = currentPos === 'first' ? firstToken : secondToken;
-    const onChange =
-      currentPos === 'first' ? handleFirstTokenChange : handleSecondTokenChange;
-    const tokenName = currentPos === 'first' ? 'MATIC' : secondTokenName;
+  const button = useMemo(() => {
+    if (!validNetwork) return { text: 'Unsupported Network', disabled: true };
 
-    const valueInUSD = isNaN(parseFloat(value)) ? 0 : parseFloat(value) * 0.75;
+    if (!account) return { text: 'Connect Wallet', disabled: false };
 
-    return (
-      <div
-        className="flex flex-col border border-gray-800 rounded-xl p-4 gap-2 bg-gray-800"
-        data-testid={`${pos}-${currentPos}`}
-      >
-        <div className="flex flex-row">
-          <input
-            className="grow text-lg md:text-2xl bg-transparent"
-            type="text"
-            pattern="^[0-9]*[.,]?[0-9]*$"
-            value={value}
-            onChange={onChange}
-            data-testid={`${currentPos}-input`}
-          />
+    if (loading) return { text: <ClipLoader />, disabled: true };
 
-          {currentPos === 'second' ? (
-            <ModalTrigger
-              modalName={'token-modal'}
-              trigger={tokenName}
-              triggerClassName={'px-2 py-1 rounded-xl bg-gray-500'}
-              modalContent={<TokenSelector onSelectToken={handleTokenChange} />}
-              modalClassName="w-56"
-            />
-          ) : (
-            <div className="px-2 py-1">{tokenName}</div>
-          )}
-        </div>
-
-        <div className="flex justify-between">
-          <div className="text-xs">${valueInUSD}</div>
-
-          {currentPos === 'first' && balance != null && (
-            <div className="text-xs">{balance} MATIC</div>
-          )}
-        </div>
-      </div>
-    );
-  };
+    return { text: 'Swap', disabled: false };
+  }, [account, loading, validNetwork]);
 
   return (
     <div className="flex flex-col gap-2 md:border border-gray-700 rounded-xl mx-auto max-w-lg p-4 m-2">
@@ -157,9 +132,9 @@ const Swap: React.FC = () => {
       <button
         className={clsx('btn-primary h-12 mt-2', { 'bg-gray-500': loading })}
         onClick={handleSwap}
-        disabled={loading}
+        disabled={button.disabled}
       >
-        {loading ? <ClipLoader /> : account ? 'Swap' : 'Connect Wallet'}
+        {button.text}
       </button>
     </div>
   );

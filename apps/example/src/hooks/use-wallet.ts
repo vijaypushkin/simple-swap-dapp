@@ -47,6 +47,10 @@ const useWallet = () => {
         return;
       }
 
+      if (!validNetwork) {
+        return;
+      }
+
       const balance = await window.ethereum.request<number>({
         method: 'eth_getBalance',
         params: [account, 'latest'],
@@ -61,16 +65,16 @@ const useWallet = () => {
     if (account != null && account !== '') {
       getBalance();
     }
-  }, [account]);
+  }, [account, validNetwork]);
 
   // ? reset error after 5 seconds
   useEffect(() => {
-    if (error) {
+    if (error && validNetwork) {
       setTimeout(() => {
         setError(null);
       }, 5000);
     }
-  }, [error]);
+  }, [error, validNetwork]);
 
   const checkNetwork = async () => {
     if (!window.ethereum) {
