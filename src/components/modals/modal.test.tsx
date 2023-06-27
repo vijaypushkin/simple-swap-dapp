@@ -22,10 +22,15 @@ const DummyApp = () => {
   );
 };
 
+// ! JSDOM does not support dialog element
 beforeAll(() => {
   HTMLDialogElement.prototype.show = vi.fn();
-  HTMLDialogElement.prototype.showModal = vi.fn();
-  HTMLDialogElement.prototype.close = vi.fn();
+  HTMLDialogElement.prototype.showModal = () => {
+    document.getElementsByTagName('dialog')[0].open = true;
+  };
+  HTMLDialogElement.prototype.close = () => {
+    document.getElementsByTagName('dialog')[0].open = false;
+  };
 });
 describe('Modal', () => {
   it('should open the modal', async () => {
@@ -33,17 +38,27 @@ describe('Modal', () => {
 
     await userEvent.click(screen.getByText('Open modal'));
 
-    expect(screen.getByText('Modal content')).toBeInTheDocument();
+    expect(screen.getByTestId('test-modal')).toHaveAttribute('open');
   });
 
-  // ! JSDOM does not support dialog element
-  // it('should close the modal on clicking close button', async () => {
-  //   render(<DummyApp />);
-  //
-  //   await userEvent.click(screen.getByText('Open modal'));
-  //
-  //   await userEvent.click(screen.getByTestId('close-modal'));
-  //
-  //   expect(screen.queryByText('Modal content')).not.toBeInTheDocument();
-  // });
+  it('should close the modal on clicking close button', async () => {
+    render(<DummyApp />);
+
+    await userEvent.click(screen.getByText('Open modal'));
+
+    await userEvent.click(screen.getByTestId('close-modal'));
+
+    expect(screen.queryByText('Modal content')).not.toHaveAttribute('open');
+  });
+
+  it('should close the modal when clicking outside', async () => {
+    render(<DummyApp />);
+
+    await userEvent.click(screen.getByText('Open modal'));
+
+    // ? Outside the modal
+    await userEvent.click(screen.getByText('Open modal'));
+
+    expect(screen.queryByText('Modal content')).not.toHaveAttribute('open');
+  });
 });
