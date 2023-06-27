@@ -6,6 +6,7 @@ It does not use any libraries or frameworks for state management, and instead us
 ## Getting Started
 
 To get started with the Simple Swap Dapp, please follow the instructions below.
+This monorepo uses [rush](https://rushjs.io/) to manage the packages
 
 ### Prerequisites
 
@@ -13,6 +14,20 @@ Before running the application, make sure you have the following software instal
 
 - Node.js (version 14 or higher)
 - PNPM (version 6 or higher)
+- Rush (version 5 or higher)
+
+Install Rush using the following command:
+
+```shell
+# PNPM (recommended)
+pnpm install -g @microsoft/rush
+
+# NPM
+npm install -g @microsoft/rush
+
+# Yarn
+yarn global add @microsoft/rush
+```
 
 ### Installation
 
@@ -26,16 +41,17 @@ Before running the application, make sure you have the following software instal
     cd simple-swap-dapp
     ```
 
-3. Install the project dependencies using PNPM:
+3. Install the project dependencies using Rush:
     ```shell
-    pnpm install
+    rush install
+   ```
 
 ## Development
 To run the Simple Swap Dapp in development mode, follow these steps:
 
 Start the development server:
 ```shell
-pnpm dev
+rushx dev
 ```
 
 Open your web browser and visit http://localhost:3000 to access the application.
@@ -46,7 +62,7 @@ Begin making changes to the code. The application will automatically reload as y
 To build the Simple Swap Dapp for production, use the following command:
 
 ```shell
-pnpm build
+rushx build
 ```
 The optimized production-ready files will be generated in the `dist` directory.
 
@@ -54,14 +70,14 @@ The optimized production-ready files will be generated in the `dist` directory.
 To run the tests for the Simple Swap Dapp, use the following command:
 
 ```shell
-pnpm test
+rushx test
 ```
 
 ## Code Coverage
 To generate code coverage for the Simple Swap Dapp, use the following command:
 
 ```shell
-pnpm coverage
+rushx coverage
 ```
 The coverage report will be generated, and you can view it in the terminal or by opening the generated HTML file in the coverage directory.
 
