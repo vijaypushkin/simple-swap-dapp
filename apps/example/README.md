@@ -42,8 +42,12 @@ yarn global add @microsoft/rush
     ```
 
 3. Install the project dependencies using Rush:
-    ```shell
-    rush install
+   ```shell
+    # Install NPM packages as needed
+   rush update
+   
+   # Do a clean rebuild of everything
+   rush rebuild
    ```
 
 ## Development

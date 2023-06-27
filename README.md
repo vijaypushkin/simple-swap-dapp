@@ -20,5 +20,9 @@ pnpm install -g @microsoft/rush
 Then, to install the packages, run the following command:
 
 ```shell
-rush install
+# Install NPM packages as needed
+rush update
+
+# Do a clean rebuild of everything
+rush rebuild
 ```
