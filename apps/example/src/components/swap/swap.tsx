@@ -83,7 +83,7 @@ const Swap: React.FC = () => {
 
     return (
       <div
-        className="flex flex-col border rounded-xl p-4 gap-2 bg-gray-800"
+        className="flex flex-col border border-gray-800 rounded-xl p-4 gap-2 bg-gray-800"
         data-testid={`${pos}-${currentPos}`}
       >
         <div className="flex flex-row">
@@ -121,13 +121,13 @@ const Swap: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col gap-2 md:border rounded-xl mx-auto max-w-lg p-4 m-2">
+    <div className="flex flex-col gap-2 md:border border-gray-700 rounded-xl mx-auto max-w-lg p-4 m-2">
       <h1 className="text-2xl">Swap</h1>
 
       {renderToken('first')}
 
       <button
-        className="-my-4 border p-2 mx-auto rounded-xl active:scale-[99%] bg-gray-900 z-10"
+        className="-my-4 border p-2 mx-auto rounded-xl active:scale-[99%] bg-gray-900 z-10 border-gray-800"
         onClick={() => setInverse((s) => !s)}
         data-testid="swap-input-button"
       >
