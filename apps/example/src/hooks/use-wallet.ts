@@ -4,6 +4,7 @@ const useWallet = () => {
   const [account, setAccount] = useState<string | null>(null);
   const [balance, setBalance] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [validNetwork, setValidNetwork] = useState<boolean>(false);
 
   const handleConnectWallet = async () => {
     setError(null);
@@ -71,10 +72,38 @@ const useWallet = () => {
     }
   }, [error]);
 
+  const checkNetwork = async () => {
+    if (!window.ethereum) {
+      setError('Metamask not found');
+      return;
+    }
+
+    window.ethereum.on('chainChanged', () => window.location.reload());
+
+    const chainId = await window.ethereum.request<number>({
+      method: 'eth_chainId',
+    });
+
+    const chainIdInDecimal = parseInt(chainId?.toString() ?? '0', 16);
+
+    console.log(chainIdInDecimal, chainIdInDecimal === 137);
+    if (chainIdInDecimal === 137) {
+      setValidNetwork(true);
+    } else {
+      setValidNetwork(false);
+      setError('Please connect to Polygon network');
+    }
+  };
+
+  useEffect(() => {
+    checkNetwork();
+  }, []);
+
   return {
     account,
     balance,
     error,
+    validNetwork,
     handleConnectWallet,
     handleDisconnectWallet,
   };

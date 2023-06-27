@@ -5,6 +5,7 @@ interface IWalletContext {
   account: string | null;
   balance: string | null;
   error: string | null;
+  validNetwork: boolean;
   handleConnectWallet: null | (() => void);
   handleDisconnectWallet: null | (() => void);
 }
@@ -17,6 +18,7 @@ const WalletContext = createContext<IWalletContext>({
   account: null,
   balance: null,
   error: null,
+  validNetwork: false,
   handleConnectWallet: null,
   handleDisconnectWallet: null,
 });
@@ -26,6 +28,7 @@ const WalletProvider: React.FC<IWalletContextProps> = ({ children }) => {
     account,
     balance,
     error,
+    validNetwork,
     handleConnectWallet,
     handleDisconnectWallet,
   } = useWallet();
@@ -36,6 +39,7 @@ const WalletProvider: React.FC<IWalletContextProps> = ({ children }) => {
         account,
         balance,
         error,
+        validNetwork,
         handleConnectWallet,
         handleDisconnectWallet,
       }}

@@ -9,7 +9,8 @@ import TokenSelector from '../modals/token-selector.tsx';
 const RATIO = 0.9975;
 
 const Swap: React.FC = () => {
-  const { account, balance, handleConnectWallet } = useWalletContext();
+  const { account, balance, handleConnectWallet, validNetwork } =
+    useWalletContext();
   const { closeModal } = useModalContext();
 
   const [firstToken, setFirstToken] = useState('');
@@ -54,6 +55,11 @@ const Swap: React.FC = () => {
   };
 
   const handleSwap = () => {
+    if (!validNetwork) {
+      alert('Please connect to the Polygon network');
+      return void 0;
+    }
+
     if (!account) {
       handleConnectWallet?.();
       return void 0;
@@ -122,7 +128,19 @@ const Swap: React.FC = () => {
 
   return (
     <div className="flex flex-col gap-2 md:border border-gray-700 rounded-xl mx-auto max-w-lg p-4 m-2">
-      <h1 className="text-2xl">Swap</h1>
+      <div className="flex justify-between items-center">
+        <h1 className="text-2xl">Swap</h1>
+
+        <div className="text-xs flex items-center gap-1">
+          <div
+            className={clsx('w-1 h-1 rounded-full', {
+              'bg-red-500': !validNetwork,
+              'bg-green-500': validNetwork,
+            })}
+          />
+          {validNetwork ? 'Polygon Mainnet' : 'Unsupported Network'}
+        </div>
+      </div>
 
       {renderToken('first')}
 
