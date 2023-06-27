@@ -22,6 +22,8 @@ pnpm add pushkin-simple-modals-01
 ```typescript jsx
 import { ModalProvider, ModalTrigger } from 'pushkin-simple-modals-01';
 
+import 'pushkin-simple-modals-01/dist/style.css';
+
 const App = () => {
   return (
     <ModalProvider>
