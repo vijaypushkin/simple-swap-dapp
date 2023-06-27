@@ -1,0 +1,42 @@
+.modal {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+
+  &::backdrop {
+    @apply backdrop-blur;
+    transition: opacity 250ms ease-in-out;
+  }
+
+  &[open] {
+    animation: show 250ms ease-in-out forwards;
+
+    &.closing {
+      animation: hide 250ms ease-in-out forwards;
+
+      &::backdrop {
+        @apply opacity-0;
+      }
+    }
+  }
+}
+
+@keyframes show {
+  from {
+    opacity: 0;
+    transform: translateY(min(100px, 5vh));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+}
+
+@keyframes hide {
+  from {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(min(100px, 5vh));
+  }
+}

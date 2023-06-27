@@ -1,0 +1,56 @@
+
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/rush/v5/rush.schema.json",
+
+
+  "rushVersion": "5.100.1",
+
+
+  "pnpmVersion": "6.7.1",
+
+
+  "nodeSupportedVersionRange": ">=14.15.0 <15.0.0 || >=16.13.0 <17.0.0 || >=18.15.0 <19.0.0",
+
+
+  "gitPolicy": {
+
+  },
+
+  "repository": {
+
+  },
+
+
+  "eventHooks": {
+
+    "preRushInstall": [
+
+    ],
+
+
+    "postRushInstall": [],
+
+
+    "preRushBuild": [],
+
+
+    "postRushBuild": []
+  },
+
+
+  "variants": [
+
+  ],
+
+
+  "projects": [
+    {
+      "packageName": "simple-swap-dapp-example",
+      "projectFolder": "apps/example"
+    },
+    {
+      "packageName": "pushkin-simple-modals-01",
+      "projectFolder": "libraries/pushkin-simple-modals"
+    }
+  ]
+}
