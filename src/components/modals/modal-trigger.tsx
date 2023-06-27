@@ -18,6 +18,7 @@ const ModalTrigger: React.FC<IModalTriggerProps> = (props) => {
         isOpen={props.modalName === currentModal}
         onClose={closeModal}
         className={props.modalClassName}
+        modalName={props.modalName}
       >
         {props.modalContent}
       </Modal>

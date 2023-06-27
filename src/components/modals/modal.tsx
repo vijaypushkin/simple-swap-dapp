@@ -1,9 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import clsx from 'clsx';
 
+import { TModalName } from '../../context/modal-context.tsx';
+
 import styles from './modal.module.scss';
 
 interface IModalProps {
+  modalName: TModalName;
   isOpen: boolean;
   onClose: () => void;
   children: React.ReactNode;
@@ -11,6 +14,7 @@ interface IModalProps {
 }
 
 const Modal: React.FC<IModalProps> = ({
+  modalName,
   isOpen,
   onClose,
   children,
@@ -66,8 +70,13 @@ const Modal: React.FC<IModalProps> = ({
           [styles.closing]: closing,
         },
       )}
+      data-testid={modalName}
     >
-      <button className="absolute right-4 top-4" onClick={onClose}>
+      <button
+        className="absolute right-4 top-4"
+        onClick={onClose}
+        data-testid="close-modal"
+      >
         &times;
       </button>
       {children}

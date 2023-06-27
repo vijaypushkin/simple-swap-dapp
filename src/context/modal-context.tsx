@@ -1,6 +1,6 @@
 import React, { createContext, useState } from 'react';
 
-export type TModalName = 'account-modal' | 'token-modal';
+export type TModalName = 'account-modal' | 'token-modal' | 'test-modal';
 
 interface IModalContext {
   currentModal: TModalName | null;
